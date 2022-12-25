@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { ColorRing } from 'react-loader-spinner';
 import { useLocation } from 'react-router-dom';
+import { loaderOptions } from '../../constants';
 import { fetchReviewById } from '../../utils/fetchAPI';
 
 const Reviews = () => {
@@ -9,6 +11,7 @@ const Reviews = () => {
   const location = useLocation();
   const movieId = location.pathname.split('/')[2];
   useEffect(() => {
+    setLoading(true);
     fetchReviewById(movieId)
       .then(res => {
         setReviews(res.results);
@@ -20,9 +23,9 @@ const Reviews = () => {
       .finally(() => setLoading(false));
   }, [movieId]);
   return (
-    <div>
+    <div className="reviewInfo">
       Reviews
-      {loading && <p>Loading...</p>}
+      {loading && <ColorRing {...loaderOptions} />}
       {error && <p>{error}</p>}
       {reviews?.length === 0 && <p>We don't have any reviews on this movie</p>}
       {reviews?.length > 0 && (

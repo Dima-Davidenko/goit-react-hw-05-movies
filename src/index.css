@@ -9,3 +9,107 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+p {
+  margin: 0;
+}
+
+.spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.goBackLink {
+  display: inline-block;
+  margin: 20px;
+  min-width: 150px;
+  border: 1px solid grey;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 2;
+  text-decoration: none;
+  color: #212121;
+}
+
+.movieList {
+  padding-left: 10px;
+  list-style: none;
+}
+.movieListItem {
+  padding: 5px;
+}
+.movieLink {
+  color: #212121;
+  text-decoration: none;
+}
+.movieLink:visited {
+  color: #3d02a3;
+}
+
+.optionsList {
+  display: flex;
+  padding-left: 10px;
+  list-style: none;
+}
+
+.optionsListItem {
+  padding: 5px;
+}
+.optionsLink {
+  display: inline-block;
+  margin: 5px;
+  min-width: 150px;
+  border: 1px solid grey;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 2;
+  text-decoration: none;
+  color: #212121;
+}
+
+.movieInfoContainer {
+  display: flex;
+  padding: 10px;
+}
+
+.addInfoNav {
+  padding: 20px;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+}
+
+.poster {
+  width: 200px;
+  height: auto;
+  margin-right: 20px;
+  border-radius: 10px;
+}
+
+.castInfo {
+  padding: 20px;
+}
+
+.castList {
+  display: grid;
+  max-width: calc(100vw - 48px);
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-gap: 16px;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  list-style: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.reviewInfo {
+  padding: 20px;
+}

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
+import { ColorRing } from 'react-loader-spinner';
 import { useLocation } from 'react-router-dom';
+import { loaderOptions } from '../../constants';
 import { fetchCastById } from '../../utils/fetchAPI';
 import css from './CastInfo.module.css';
 
@@ -21,13 +23,13 @@ const CastInfo = () => {
       .finally(() => setLoading(false));
   }, [movieId]);
   return (
-    <div>
-      CastInfo
-      {loading && <p>Loading...</p>}
+    <div className="castInfo">
+      Cast
+      {loading && <ColorRing {...loaderOptions} />}
       {error && <p>{error}</p>}
       {cast?.length === 0 && <p>We don't have any information about this movie</p>}
       {cast?.length > 0 && (
-        <ul>
+        <ul className="castList">
           {cast.map(({ name, profile_path, credit_id }) => (
             <li key={credit_id} className={css.actor}>
               {profile_path && (

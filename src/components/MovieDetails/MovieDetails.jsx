@@ -1,8 +1,9 @@
 import React, { Suspense, useState } from 'react';
 import { useEffect } from 'react';
+import { ColorRing } from 'react-loader-spinner';
 import { Link, Outlet, useLocation } from 'react-router-dom';
+import { loaderOptions } from '../../constants';
 import { fetchDetailsById } from '../../utils/fetchAPI';
-import css from './MovieDetails.module.css';
 
 const addInfoOptions = [
   { linkName: 'Cast', linkTo: 'cast' },
@@ -26,24 +27,28 @@ const MovieDetails = () => {
   if (!movieInfo)
     return (
       <div>
-        <Link to={location?.state?.from ?? '/'}>Go back</Link>
-        {loading && <p>Loading...</p>}
+        <Link className="goBackLink" to={location?.state?.from ?? '/'}>
+          ← Go back
+        </Link>
+        {loading && <ColorRing {...loaderOptions} />}
         {error && <p>{error}</p>}
       </div>
     );
   const { title, poster_path, vote_average, overview, genres = [] } = movieInfo;
   return (
     <div>
-      <Link to={location?.state?.from ?? '/'}>Go back</Link>
+      <Link className="goBackLink" to={location?.state?.from ?? '/'}>
+        ← Go back
+      </Link>
       {movieInfo && (
         <>
-          <div className={css.container}>
+          <div className="movieInfoContainer">
             <img
-              className={css.poster}
+              className="poster"
               src={`https://image.tmdb.org/t/p/w500${poster_path}`}
               alt={title}
             />
-            <div className={css.description}>
+            <div>
               <h2>{title}</h2>
               <p>User score: {Math.round(vote_average * 10)}%</p>
               <h3>Overview:</h3>
@@ -52,12 +57,12 @@ const MovieDetails = () => {
               <p>{genres.map(({ name }) => name).join(', ')}</p>
             </div>
           </div>
-          <div className={css.addInfoNav}>
+          <div className="addInfoNav">
             <p>Additional information:</p>
-            <ul>
+            <ul className="optionsList">
               {addInfoOptions.map(({ linkName, linkTo }) => (
-                <li key={linkTo}>
-                  <Link to={linkTo} state={{ from: location.state.from }}>
+                <li className="optionsListItem" key={linkTo}>
+                  <Link className="optionsLink" to={linkTo} state={{ from: location.state.from }}>
                     {linkName}
                   </Link>
                 </li>
@@ -66,7 +71,19 @@ const MovieDetails = () => {
           </div>
         </>
       )}
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense
+        fallback={
+          <ColorRing
+            visible={true}
+            height="150"
+            width="150"
+            ariaLabel="blocks-loading"
+            wrapperStyle={{}}
+            wrapperClass="spinner"
+            colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+          />
+        }
+      >
         <Outlet />
       </Suspense>
     </div>

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useRef } from 'react';
 import { useEffect } from 'react';
+import { ColorRing } from 'react-loader-spinner';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { SearchBar } from '../../components';
+import { loaderOptions } from '../../constants';
 import { fetchSearchByWord } from '../../utils/fetchAPI';
 
 const Movies = () => {
@@ -43,17 +45,17 @@ const Movies = () => {
 
   return (
     <>
-      {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
       <div>
         <SearchBar value={query} onChange={handleInputChange} onSubmit={handleFormSubmit} />
       </div>
+      {error && <p>{error}</p>}
+      {loading && <ColorRing {...loaderOptions} />}
       {movies?.length === 0 && <p>Nothing...</p>}
       {movies?.length > 0 && (
-        <ul>
+        <ul className="movieList">
           {movies.map(movie => (
-            <li key={movie.id}>
-              <Link to={`/movies/${movie.id}`} state={{ from: location }}>
+            <li className="movieListItem" key={movie.id}>
+              <Link className="movieLink" to={`/movies/${movie.id}`} state={{ from: location }}>
                 {movie.title}
               </Link>
             </li>
