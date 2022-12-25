@@ -1,10 +1,5 @@
 export { default as Box } from './Box/Box';
 export { default as Home } from '../pages/Home/Home';
-export { default as Movies } from '../pages/Movies/Movies';
-export { default as NotFound } from '../pages/NotFound/NotFound';
 export { default as SharedLayout } from './SharedLayout/SharedLayout';
 export { default as Trending } from './Trending/Trending';
 export { default as SearchBar } from './SearchBar/SearchBar';
-export { default as MovieDetails } from './MovieDetails/MovieDetails';
-export { default as CastInfo } from './CastInfo/CastInfo';
-export { default as Reviews } from './Reviews/Reviews';
