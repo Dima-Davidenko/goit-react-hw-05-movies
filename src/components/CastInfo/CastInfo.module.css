@@ -1,0 +1,14 @@
+.actor {
+  display: flex;
+  flex-direction: column;
+}
+
+.actor:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.image {
+  width: 100px;
+  height: auto;
+  margin-bottom: 10px;
+}
