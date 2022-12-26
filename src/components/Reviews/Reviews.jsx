@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ColorRing } from 'react-loader-spinner';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { loaderOptions } from '../../constants';
 import { fetchReviewById } from '../../utils/fetchAPI';
 
@@ -8,8 +8,7 @@ const Reviews = () => {
   const [reviews, setReviews] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const location = useLocation();
-  const movieId = location.pathname.split('/')[2];
+  const { movieId } = useParams();
   useEffect(() => {
     setLoading(true);
     fetchReviewById(movieId)

@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ColorRing } from 'react-loader-spinner';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { loaderOptions } from '../../constants';
 import { fetchCastById } from '../../utils/fetchAPI';
 import css from './CastInfo.module.css';
@@ -10,8 +9,7 @@ const CastInfo = () => {
   const [cast, setCast] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const location = useLocation();
-  const movieId = location.pathname.split('/')[2];
+  const { movieId } = useParams();
   useEffect(() => {
     setLoading(true);
     fetchCastById(movieId)

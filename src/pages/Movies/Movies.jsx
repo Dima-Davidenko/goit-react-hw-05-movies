@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { useRef } from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ColorRing } from 'react-loader-spinner';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { SearchBar } from '../../components';
+import MoviesList from '../../components/MoviesList/MoviesList';
 import { loaderOptions } from '../../constants';
 import { fetchSearchByWord } from '../../utils/fetchAPI';
 
@@ -51,17 +50,7 @@ const Movies = () => {
       {error && <p>{error}</p>}
       {loading && <ColorRing {...loaderOptions} />}
       {movies?.length === 0 && <p>Nothing...</p>}
-      {movies?.length > 0 && (
-        <ul className="movieList">
-          {movies.map(movie => (
-            <li className="movieListItem" key={movie.id}>
-              <Link className="movieLink" to={`/movies/${movie.id}`} state={{ from: location }}>
-                {movie.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
+      {movies?.length && <MoviesList movies={movies} location={location} />}
     </>
   );
 };

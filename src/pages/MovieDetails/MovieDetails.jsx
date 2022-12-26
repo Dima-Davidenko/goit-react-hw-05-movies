@@ -1,7 +1,7 @@
 import React, { Suspense, useState } from 'react';
 import { useEffect } from 'react';
 import { ColorRing } from 'react-loader-spinner';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { loaderOptions } from '../../constants';
 import { fetchDetailsById } from '../../utils/fetchAPI';
 
@@ -12,7 +12,7 @@ const addInfoOptions = [
 
 const MovieDetails = () => {
   const location = useLocation();
-  const movieId = location.pathname.split('/')[2];
+  const { movieId } = useParams();
   const [movieInfo, setMovieInfo] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
