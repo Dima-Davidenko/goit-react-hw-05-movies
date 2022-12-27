@@ -1,12 +1,11 @@
 import React, { Suspense } from 'react';
 import { ColorRing } from 'react-loader-spinner';
 import { Outlet } from 'react-router-dom';
-import { Box } from '../index';
 import { StyledHeader, StyledLink } from './SharedLayout.styled';
 
 const SharedLayout = () => {
   return (
-    <Box>
+    <div>
       <StyledHeader>
         <nav>
           <StyledLink to="">Home</StyledLink>
@@ -28,7 +27,7 @@ const SharedLayout = () => {
       >
         <Outlet />
       </Suspense>
-    </Box>
+    </div>
   );
 };
 

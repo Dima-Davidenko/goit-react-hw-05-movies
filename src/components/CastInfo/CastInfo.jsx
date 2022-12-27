@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import React from 'react';
 import { ColorRing } from 'react-loader-spinner';
 import { useParams } from 'react-router-dom';
 import { loaderOptions } from '../../constants';
@@ -6,20 +7,15 @@ import { fetchCastById } from '../../utils/fetchAPI';
 import css from './CastInfo.module.css';
 
 const CastInfo = () => {
-  const [cast, setCast] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
   const { movieId } = useParams();
-  useEffect(() => {
-    setLoading(true);
-    fetchCastById(movieId)
-      .then(({ data }) => setCast(data.cast))
-      .catch(error => {
-        setError(error.message);
-        console.log(error);
-      })
-      .finally(() => setLoading(false));
-  }, [movieId]);
+  const castInfo = useQuery({
+    queryKey: ['castInfo', movieId],
+    queryFn: fetchCastById,
+    staleTime: 1000 * 60 * 60,
+  });
+  const cast = castInfo?.data?.cast;
+  const loading = castInfo?.isFetching;
+  const error = castInfo?.error;
   return (
     <div className="castInfo">
       Cast

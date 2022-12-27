@@ -8,32 +8,30 @@ const axiosTMDB = axios.create({
   },
 });
 
-export const fetchPopular = async (page = 1) => {
-  const { data } = await axiosTMDB.get('trending/movie/week', {
-    params: { page, language: 'en' },
-  });
+export const fetchPopular = async () => {
+  const { data } = await axiosTMDB.get('trending/movie/week');
   return data;
 };
-export const fetchSearchByWord = async query => {
+export const fetchSearchByWord = async ({ queryKey }) => {
+  const query = queryKey[0];
+  if (!query) return null;
   const { data } = await axiosTMDB.get('search/movie', {
-    params: { query, language: 'en' },
+    params: { query },
   });
   return data;
 };
-export const fetchDetailsById = async id => {
-  const { data } = await axiosTMDB.get(`/movie/${id}`, {
-    params: { language: 'en' },
-  });
+export const fetchDetailsById = async ({ queryKey }) => {
+  const id = queryKey[1];
+  const { data } = await axiosTMDB.get(`/movie/${id}`);
   return data;
 };
-export const fetchCastById = id => {
-  return axiosTMDB.get(`/movie/${id}/credits`, {
-    params: { language: 'en' },
-  });
+export const fetchCastById = async ({ queryKey }) => {
+  const id = queryKey[1];
+  const { data } = await axiosTMDB.get(`/movie/${id}/credits`);
+  return data;
 };
-export const fetchReviewById = async id => {
-  const { data } = await axiosTMDB.get(`/movie/${id}/reviews`, {
-    params: { language: 'en' },
-  });
+export const fetchReviewById = async ({ queryKey }) => {
+  const id = queryKey[1];
+  const { data } = await axiosTMDB.get(`/movie/${id}/reviews`);
   return data;
 };

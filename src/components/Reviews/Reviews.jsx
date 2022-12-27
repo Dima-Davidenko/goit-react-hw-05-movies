@@ -1,26 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import React from 'react';
 import { ColorRing } from 'react-loader-spinner';
 import { useParams } from 'react-router-dom';
 import { loaderOptions } from '../../constants';
 import { fetchReviewById } from '../../utils/fetchAPI';
 
 const Reviews = () => {
-  const [reviews, setReviews] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
   const { movieId } = useParams();
-  useEffect(() => {
-    setLoading(true);
-    fetchReviewById(movieId)
-      .then(res => {
-        setReviews(res.results);
-      })
-      .catch(error => {
-        setError(error.message);
-        console.log(error);
-      })
-      .finally(() => setLoading(false));
-  }, [movieId]);
+  const reviewsInfo = useQuery({
+    queryKey: ['reviewsInfo', movieId],
+    queryFn: fetchReviewById,
+    staleTime: 1000 * 60 * 60,
+  });
+  const reviews = reviewsInfo?.data?.results;
+  const loading = reviewsInfo?.isFetching;
+  const error = reviewsInfo?.error;
   return (
     <div className="reviewInfo">
       Reviews

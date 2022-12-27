@@ -1,5 +1,5 @@
-import React, { Suspense, useState } from 'react';
-import { useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import React, { Suspense } from 'react';
 import { ColorRing } from 'react-loader-spinner';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { loaderOptions } from '../../constants';
@@ -13,16 +13,15 @@ const addInfoOptions = [
 const MovieDetails = () => {
   const location = useLocation();
   const { movieId } = useParams();
-  const [movieInfo, setMovieInfo] = useState();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  useEffect(() => {
-    setLoading(true);
-    fetchDetailsById(movieId)
-      .then(res => setMovieInfo(res))
-      .catch(error => setError(error.message))
-      .finally(() => setLoading(false));
-  }, [movieId]);
+
+  const movieDetails = useQuery({
+    queryKey: ['movieDetails', movieId],
+    queryFn: fetchDetailsById,
+    staleTime: 1000 * 60 * 60,
+  });
+  const movieInfo = movieDetails?.data;
+  const loading = movieDetails?.isFetching;
+  const error = movieDetails?.error;
 
   if (!movieInfo)
     return (
@@ -62,7 +61,7 @@ const MovieDetails = () => {
             <ul className="optionsList">
               {addInfoOptions.map(({ linkName, linkTo }) => (
                 <li className="optionsListItem" key={linkTo}>
-                  <Link className="optionsLink" to={linkTo} state={{ from: location.state.from }}>
+                  <Link className="optionsLink" to={linkTo} state={{ from: location?.state?.from }}>
                     {linkName}
                   </Link>
                 </li>
@@ -71,19 +70,7 @@ const MovieDetails = () => {
           </div>
         </>
       )}
-      <Suspense
-        fallback={
-          <ColorRing
-            visible={true}
-            height="150"
-            width="150"
-            ariaLabel="blocks-loading"
-            wrapperStyle={{}}
-            wrapperClass="spinner"
-            colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
-          />
-        }
-      >
+      <Suspense fallback={<ColorRing {...loaderOptions} />}>
         <Outlet />
       </Suspense>
     </div>
